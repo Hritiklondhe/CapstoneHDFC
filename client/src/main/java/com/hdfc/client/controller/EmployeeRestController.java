@@ -11,21 +11,21 @@ import com.hdfc.client.Vo.EmployeeVO;
 import com.hdfc.client.exception.EmployeeNotFoundException;
 
 @RestController
-@RequestMapping("/api/employee/client")
+@RequestMapping("/api/client/employee")
 public class EmployeeRestController {
 
     @Autowired
-    private RestTemplate template;
+    private RestTemplate restTemplate;
 
-    String baseUrl = "https://localhost:8080/employee";
+    String baseUrl = "https://localhost:8080/api/v1/employee";
 
-    @GetMapping("/{employeeID}")
-    public EmployeeVO getEmployeeById(@PathVariable int employeeID) throws Exception {
-        EmployeeVO employeeVo = template.getForObject(baseUrl + "/getById/" + employeeID, EmployeeVO.class);
-        if (employeeVo == null) {
-            throw new EmployeeNotFoundException("Employee not found with ID: " + employeeID);
+    @GetMapping("/{employeeId}")
+    public EmployeeVO getEmployeeById(@PathVariable Long employeeId) throws Exception {
+        EmployeeVO employeeVO = restTemplate.getForObject(baseUrl + "/" + employeeId, EmployeeVO.class);
+        if (employeeVO == null) {
+            throw new EmployeeNotFoundException("Employee not found with ID: " + employeeId);
         }
-        employeeVo.setDateOfBirth(EmployeeVO.decryptDOB(employeeVo.getDateOfBirth()));
-        return employeeVo;
+        employeeVO.setDateOfBirth(EmployeeVO.decryptDOB(employeeVO.getDateOfBirth()));
+        return employeeVO;
     }
 }
