@@ -18,4 +18,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> HttpClientErrorExceptionHandler(HttpClientErrorException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<?> DefaultHandlerException(NumberFormatException ex) {
+        return new ResponseEntity<>("Enter the EmployeeId in number format only", HttpStatus.BAD_REQUEST);
+    }
 }
